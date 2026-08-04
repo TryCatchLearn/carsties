@@ -13,6 +13,14 @@
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.3" />
+      <PackageReference Include="WolverineFx.EntityFrameworkCore" Version="6.24.5" />
+      <PackageReference Include="WolverineFx.Postgresql" Version="6.24.5" />
+      <PackageReference Include="WolverineFx.RabbitMQ" Version="6.24.5" />
+      <PackageReference Include="WolverineFx.RuntimeCompilation" Version="6.24.5" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Contracts\Contracts.csproj" />
     </ItemGroup>
 
 </Project>
