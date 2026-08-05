@@ -4,6 +4,7 @@ using AuctionService.DTOs;
 using AuctionService.Entities;
 using Contracts;
 using Mapster;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Wolverine.EntityFrameworkCore;
@@ -55,13 +56,13 @@ public class AuctionsController(AuctionDbContext context, IDbContextOutbox<Aucti
         return auction;
     }
 
+    [Authorize]
     [HttpPost]
     public async Task<ActionResult<AuctionDto>> CreateAuction(CreateAuctionDto createAuctionDto)
     {
         var auction = createAuctionDto.Adapt<Auction>();
         
-        // TODO: add current user as seller
-        auction.Seller = "TODO: seller";
+        auction.Seller = User.Identity?.Name ?? throw new Exception("User has not been authenticated");
         
         context.Auctions.Add(auction);
 
@@ -72,6 +73,7 @@ public class AuctionsController(AuctionDbContext context, IDbContextOutbox<Aucti
         return CreatedAtAction(nameof(GetAuction), new { id = auction.Id }, newAuction);
     }
 
+    [Authorize]
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateAuction(string id, UpdateAuctionDto updateAuctionDto)
     {
@@ -90,8 +92,9 @@ public class AuctionsController(AuctionDbContext context, IDbContextOutbox<Aucti
         {
             return BadRequest("Cannot update an auction that has bids");
         }
+
+        if (auction.Seller != User.Identity?.Name) return Forbid();
         
-        // TODO: Check seller is the same as the current user
         auction.UpdatedAt = DateTime.UtcNow;
         
         var updatedAuction = updateAuctionDto.Adapt(auction.Item);
@@ -102,6 +105,7 @@ public class AuctionsController(AuctionDbContext context, IDbContextOutbox<Aucti
         return NoContent();
     }
 
+    [Authorize]
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteAuction(string id)
     {
@@ -117,7 +121,7 @@ public class AuctionsController(AuctionDbContext context, IDbContextOutbox<Aucti
             return BadRequest("Cannot delete auction that has bids");
         }
         
-        // TODO: check seller is the same as current user
+        if (auction.Seller != User.Identity?.Name) return Forbid();
         
         context.Auctions.Remove(auction);
         
@@ -125,5 +129,14 @@ public class AuctionsController(AuctionDbContext context, IDbContextOutbox<Aucti
         await outbox.SaveChangesAndFlushMessagesAsync();
         
         return NoContent();
+    }
+
+    [Authorize]
+    [HttpPost("test")]
+    public ActionResult<string> AuthTest()
+    {
+        var name = User.Identity?.Name;
+        
+        return Ok($"{name} has been authenticated");
     }
 }
