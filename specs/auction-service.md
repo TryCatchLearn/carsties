@@ -30,27 +30,27 @@ WolverineFx.RuntimeCompilation
 
 ## External (User)
 
-**CreateAuction** - Creates an Auction/Item. Emits **AuctionCreated**
-**UpdateAuction** - Updates an auction's item details. Rejected if the auction already has a bid (`CurrentHighBid > 0`) or the caller isn't the seller. Emits **AuctionUpdated**
-**DeleteAuction** - Deletes an auction. Rejected if the auction already has a bid or the caller isn't the seller. Emits **AuctionDeleted**
+- **CreateAuction** - Creates an Auction/Item. Emits **AuctionCreated**
+- **UpdateAuction** - Updates an auction's item details. Rejected if the auction already has a bid (`CurrentHighBid > 0`) or the caller isn't the seller. Emits **AuctionUpdated**
+- **DeleteAuction** - Deletes an auction. Rejected if the auction already has a bid or the caller isn't the seller. Emits **AuctionDeleted**
 
 ## Queries handled
 
-**GetAuctions** - Gets all auctions, optionally filtered to `UpdatedAt > date` (used by SearchService to catch up on startup). Returns list of **AuctionDto**, ordered by Make/Model
-**GetAuctionById** - Gets an auction by ID. Returns **AuctionDto**
+- **GetAuctions** - Gets all auctions, optionally filtered to `UpdatedAt > date` (used by SearchService to catch up on startup). Returns list of **AuctionDto**, ordered by Make/Model
+- **GetAuctionById** - Gets an auction by ID. Returns **AuctionDto**
 
 ## Events emitted
 
-**AuctionCreated** - When an auction is created, in response to CreateAuction
-**AuctionUpdated** - When an auction is updated, in response to UpdateAuction
-**AuctionDeleted** - When an auction is deleted, in response to DeleteAuction
+- **AuctionCreated** - When an auction is created, in response to CreateAuction
+- **AuctionUpdated** - When an auction is updated, in response to UpdateAuction
+- **AuctionDeleted** - When an auction is deleted, in response to DeleteAuction
 
 All three are published via the Wolverine EF Core outbox (`IDbContextOutbox<AuctionDbContext>`) in the same transaction as the DB write, to fanout exchanges (`auction-created`, `auction-updated`, `auction-deleted`).
 
 ## Events consumed
 
-**BidService.BidPlaced** - Updates `CurrentHighBid` when the incoming bid is `Accepted`/`AcceptedBelowReserve` and higher than the current value
-**BidService.AuctionFinished** - Sets `Winner`/`SoldAmount` (if `ItemSold`) and moves `Status` to `Finished` or `ReserveNotMet` depending on whether `SoldAmount > ReservePrice`
+- **BidService.BidPlaced** - Updates `CurrentHighBid` when the incoming bid is `Accepted`/`AcceptedBelowReserve` and higher than the current value
+- **BidService.AuctionFinished** - Sets `Winner`/`SoldAmount` (if `ItemSold`) and moves `Status` to `Finished` or `ReserveNotMet` depending on whether `SoldAmount > ReservePrice`
 
 Also listens on `wolverine-dead-letter-queue`: a `DeadLetterHandler` logs any `AuctionCreated` message that lands there (test/demo hook, not part of normal flow).
 
@@ -101,8 +101,6 @@ Auth is JWT Bearer, validated against IdentityService (`Authority` = IdentitySer
 | Description   | string                              |               |
 | ImageUrl      | string                              |               |
 | Auction       | Auction? (related to **Auction**)   |               |
-
-Note: `Item.Id` is the same value as `Auction.Id` — it's a one-to-one FK/PK link (`HasForeignKey<Item>(x => x.Id)`), not a separately generated key.
 
 **Status.cs (enum)**
 
