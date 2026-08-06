@@ -1,3 +1,4 @@
+using Duende.IdentityServer.Extensions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +15,7 @@ public class Index : PageModel
     public async Task<IActionResult> OnGetAsync(CancellationToken ct)
     {
         //Replace with an authorization policy check
-        if (HttpContext.Connection.IsRemote())
+        if (!HttpContext.User.IsAuthenticated())
         {
             return NotFound();
         }
