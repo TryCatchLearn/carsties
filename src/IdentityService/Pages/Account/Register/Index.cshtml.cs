@@ -10,12 +10,14 @@ namespace IdentityService.Pages.Account.Register;
 
 [SecurityHeaders]
 [AllowAnonymous]
-public class Index(UserManager<ApplicationUser> userManager) : PageModel
+public class Index(UserManager<ApplicationUser> userManager, IConfiguration config) : PageModel
 {
     [BindProperty] public InputModel Input { get; set; } = null!;
     [BindProperty] public bool RegisterSuccess { get; set; }
+    
+    public string ClientAppUrl => config["ClientAppUrl"]!;
 
-    public IActionResult OnGet(string returnUrl)
+    public IActionResult OnGet(string? returnUrl)
     {
         Input = new InputModel
         {

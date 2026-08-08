@@ -88,6 +88,7 @@ services:
       - ASPNETCORE_URLS=http://+80
       - ConnectionStrings__DefaultConnection=Server=postgres:5432;User Id=postgres;Password=postgrespw;Database=identity
       - IdentityServer__IssuerUri=http://localhost:5001
+      - ClientAppUrl=http://localhost:3000
     ports:
       - "5001:80"
     volumes:
