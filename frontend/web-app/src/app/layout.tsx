@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import NavBar from "@/components/nav/NavBar";
+import {Toaster} from "@/components/ui/toast";
 
 const inter = Inter({subsets:['latin'],variable:'--font-sans'});
 
@@ -19,7 +20,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <main className="container mx-auto mt-8 flex flex-1 flex-col">
           {children}
       </main>
-     
+      <Toaster />
       </body>
     </html>
   );

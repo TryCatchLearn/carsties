@@ -7,22 +7,25 @@ import Filters from "@/features/listings/Filters";
 export default async function Home(props: PageProps<"/">) {
     const searchParams = await props.searchParams;
 
-    const data = await getListings(searchParams);
+    const result = await getListings(searchParams);
+    
+    if (!result.ok) throw new Error(result.error)
+    
     return (
         <div className='flex flex-col flex-1'>
-            {data.totalCount === 0 ? (
+            <Filters />
+            {result.data.totalCount === 0 ? (
                 <div className='flex flex-1 justify-center items-center'>
                     <EmptyState/>
                 </div>
                 
             ) : (
                 <>
-                    <Filters />
-                    <Listings auctions={data.results}/>
+                    <Listings auctions={result.data.results}/>
                     <AppPagination
                         page={Number(searchParams["pageNumber"]) || 1}
                         pageSize={Number(searchParams["pageSize"]) || 8}
-                        totalCount={data.totalCount}
+                        totalCount={result.data.totalCount}
                     />
                 </>
             )}

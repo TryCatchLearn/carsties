@@ -1,14 +1,14 @@
 "use client"
 
 import {
-    CarFront,
+    CarFront, ChevronDown,
     CreditCardIcon,
     LogOutIcon,
     SettingsIcon, Trophy,
     UserIcon,
 } from "lucide-react"
 
-import { Button } from "@/components/ui/button"
+import {Button} from "@/components/ui/button"
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -29,21 +29,21 @@ export function UserMenu({user}: Props) {
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
-    
+
     const setParams = (key: 'seller' | 'winner', value: string) => {
         const params = new URLSearchParams(searchParams);
-        
+
         if (key === 'seller' && params.has('winner')) params.delete('winner');
         if (key === 'winner' && params.has('seller')) params.delete('seller');
-        
+
         params.set(key, value);
         params.set('pageNumber', '1');
-        
+
         const dest = pathname === '/' ? pathname : '/';
-        
+
         router.push(`${dest}?${params.toString()}`);
     }
-    
+
     const signOut = () => {
         void authClient.signOut({
             fetchOptions: {
@@ -54,34 +54,40 @@ export function UserMenu({user}: Props) {
             }
         })
     }
-    
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger render={
-                <Button variant="outline">{user.name}</Button>} 
+                <Button variant="outline">
+                    {user.name}
+                    <ChevronDown/>
+                </Button>}
             />
             <DropdownMenuContent>
                 <DropdownMenuItem onClick={() => setParams('seller', user.username)}>
-                    <UserIcon />
+                    <UserIcon/>
                     My Auctions
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setParams('winner', user.username)}>
-                    <Trophy />
+                    <Trophy/>
                     Auctions won
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                    <CarFront />
-                    Sell my car
+                    <Link href='/listings/create' className='flex gap-2 items-center'>
+                        <CarFront/>
+                        Sell my car
+                    </Link>
+
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                     <Link href='/session' className='flex gap-2 items-center'>
-                        <SettingsIcon />
+                        <SettingsIcon/>
                         Session
                     </Link>
                 </DropdownMenuItem>
-                <DropdownMenuSeparator />
+                <DropdownMenuSeparator/>
                 <DropdownMenuItem onClick={signOut} variant="destructive">
-                    <LogOutIcon />
+                    <LogOutIcon/>
                     Log out
                 </DropdownMenuItem>
             </DropdownMenuContent>
