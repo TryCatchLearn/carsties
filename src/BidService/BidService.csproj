@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Contracts\Contracts.csproj" />
+    </ItemGroup>
+    
+    <ItemGroup>
+        <EmbeddedResource Include="Data/Scripts/*.sql" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Dapper" Version="2.1.79" />
+      <PackageReference Include="dbup-postgresql" Version="7.0.1" />
+      <PackageReference Include="Google.Protobuf" Version="3.35.1" />
+      <PackageReference Include="Grpc.Net.Client" Version="2.83.0" />
+      <PackageReference Include="Grpc.Tools" Version="2.83.0">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+      <PackageReference Include="Mapster" Version="10.0.11" />
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.10" />
+      <PackageReference Include="Npgsql" Version="10.0.3" />
+      <PackageReference Include="WolverineFx.Postgresql" Version="6.25.3" />
+      <PackageReference Include="WolverineFx.RabbitMQ" Version="6.25.2" />
+      <PackageReference Include="WolverineFx.RuntimeCompilation" Version="6.25.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProtoBuf Include="Protos\auction.proto" GrpcServices="Client" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="..\..\.dockerignore">
+        <Link>.dockerignore</Link>
+      </Content>
+    </ItemGroup>
+    
+</Project>

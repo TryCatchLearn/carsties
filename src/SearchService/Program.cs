@@ -40,7 +40,7 @@ builder.Host.UseWolverine(opts =>
     opts.UseRabbitMq(rabbit =>
         {
             rabbit.HostName = builder.Configuration["RabbitMQ:Host"] ?? "localhost";
-            rabbit.UserName = builder.Configuration["RabbitMQ:Usernam"] ?? "guest";
+            rabbit.UserName = builder.Configuration["RabbitMQ:Username"] ?? "guest";
             rabbit.Password = builder.Configuration["RabbitMQ:Password"] ?? "guest";
         })
         .DeclareExchange("auction-created", ex => ex.ExchangeType = ExchangeType.Fanout)
