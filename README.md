@@ -1,7 +1,7 @@
 # Microservices Udemy Course repository (2026 version)
 
-![AuctionService](https://github.com/TryCatchLearn/carsties/actions/worflows/auction-svc.yml/badge.svg)
-![SearchService](https://github.com/TryCatchLearn/carsties/actions/worflows/search-svc.yml/badge.svg)
+![AuctionService](https://github.com/TryCatchLearn/carsties/actions/workflows/auction-svc.yml/badge.svg)
+![SearchService](https://github.com/TryCatchLearn/carsties/actions/workflows/search-svc.yml/badge.svg)
 
 This is the Work In Progress repo for the upcoming remastered version of the Udemy course that will be released in September 2026.
 
