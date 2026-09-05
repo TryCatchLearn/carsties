@@ -49,9 +49,9 @@ spec:
             - name: ConnectionStrings__DefaultConnection
               value: Server=postgres:5432;User Id=postgres;Password=$(POSTGRES_PASSWORD);Database=identity
             - name: IdentityServer__IssuerUri
-              value: https://id.carsties.test
+              value: https://id.146.190.200.142.nip.io
             - name: ClientAppUrl
-              value: https://app.carsties.test
+              value: https://app.146.190.200.142.nip.io
           volumeMounts:
             - mountPath: /app/keys
               name: keys
