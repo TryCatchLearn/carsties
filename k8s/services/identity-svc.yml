@@ -25,6 +25,8 @@ spec:
       labels:
         app: identity-svc
     spec:
+      securityContext:
+        fsGroup: 1654
       imagePullSecrets:
         - name: ghcr-pull-secret
       initContainers:
