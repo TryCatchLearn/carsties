@@ -9,6 +9,10 @@ on:
       dockerfile:
         required: true
         type: string
+      context:
+        required: false
+        type: string
+        default: "."
 
 env:
   REGISTRY: ghcr.io
@@ -52,7 +56,7 @@ jobs:
         id: build-and-push
         uses: docker/build-push-action@v7
         with:
-          context: .
+          context: ${{inputs.context}}
           push: true
           file: ${{inputs.dockerfile}}
           tags: ${{ steps.meta.outputs.tags }}
