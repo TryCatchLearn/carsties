@@ -25,13 +25,15 @@ spec:
       labels:
         app: identity-svc
     spec:
+      imagePullSecrets:
+        - name: ghcr-pull-secret
       initContainers:
         - name: wait-for-postgres
           image: busybox
           command: [ "sh", "-c", "until nc -z postgres 5432; do echo waiting for postgres; sleep 2; done" ]
       containers:
         - name: identity-svc
-          image: trycatchlearn/identity-svc:latest
+          image: ghcr.io/trycatchlearn/carsties/identity-svc:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
