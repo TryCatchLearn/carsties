@@ -42,7 +42,7 @@ services:
       timeout: 5s
       retries: 5
   auction-svc:
-    image: trycatchlearn/auction-svc:latest
+    image: ghcr.io/trycatchlearn/carsties/auction-svc:latest
     build:
       context: .
       dockerfile: src/AuctionService/Dockerfile

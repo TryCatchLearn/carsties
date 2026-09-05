@@ -21,6 +21,9 @@ jobs:
     permissions:
       contents: read
       packages: write
+    
+    outputs: 
+      image_tags: ${{steps.meta.outputs.tags}}
 
     steps:
       - name: Checkout repository
@@ -56,3 +59,33 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha,scope={{env.IMAGE_NAME}}
           cache-to: type=gha,mode=max,scope={{env.IMAGE_NAME}}
+
+  deploy:
+    needs: [build]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{secrets.DIGITAL_OCEAN_TOKEN}}
+          
+      - name: Save digital ocean kubeconfig
+        run: doctl kubernetes cluster kubeconfig save carsties
+      
+      - name: Apply manifest with sha tag
+        run: |
+          IMAGE=$(echo "${{needs.build.outputs.image_tags}}" | grep ':sha-')
+          yq eval '(
+            select(.kind == "Deployment")
+            | .spec.template.spec.containers[]
+            | select(.name == "${{inputs.image}}")
+          ).image = "'"$IMAGE"'"' \
+          k8s/services/${{inputs.image}}.yml \
+          | kubectl apply -f -
