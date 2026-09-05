@@ -31,7 +31,7 @@ spec:
                   key: better-auth-secret
                   name: carsties-secrets
             - name: BETTER_AUTH_URL
-              value: https://app.146.190.200.142.nip.io
+              value: https://app.carsties.test
             - name: BASE_API_URL
               value: http://gateway-svc
             - name: ID_URL_INTERNAL

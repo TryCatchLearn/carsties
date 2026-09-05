@@ -2,15 +2,16 @@ name: AuctionService
 
 on:
   workflow_dispatch:
-  push: 
-    branches: [main]
-    paths:
-      - "src/AuctionService/**"
-      - "src/Contracts/**"
-      - "tests/AuctionService.Tests/**"
-      - "k8s/services/auction-svc.yml"
-      - ".github/workflows/auction-svc.yml"
-      - ".github/workflows/deploy.yml"
+#  push trigger disabled following end of course
+#  push:
+#    branches: [main]
+#    paths:
+#      - "src/AuctionService/**"
+#      - "src/Contracts/**"
+#      - "tests/AuctionService.Tests/**"
+#      - "k8s/services/auction-svc.yml"
+#      - ".github/workflows/auction-svc.yml"
+#      - ".github/workflows/deploy.yml"
 
 concurrency: 
   group: auction-svc-${{github.ref}}

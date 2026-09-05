@@ -2,15 +2,16 @@ name: SearchService
 
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - "src/SearchService/**"
-      - "src/Contracts/**"
-      - "k8s/services/search-svc.yml"
-      - "tests/SearchService.Tests/**"
-      - ".github/workflows/search-svc.yml"
-      - ".github/workflows/deploy.yml"
+#  push trigger disabled following end of course
+#  push:
+#    branches: [main]
+#    paths:
+#      - "src/SearchService/**"
+#      - "src/Contracts/**"
+#      - "k8s/services/search-svc.yml"
+#      - "tests/SearchService.Tests/**"
+#      - ".github/workflows/search-svc.yml"
+#      - ".github/workflows/deploy.yml"
 
 concurrency:
   group: search-svc-${{ github.ref }}

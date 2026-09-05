@@ -2,13 +2,14 @@ name: WebApp
 
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - "frontend/web-app/**"
-      - "k8s/services/web-app.yml"
-      - ".github/workflows/web-app.yml"
-      - ".github/workflows/deploy.yml"
+#  push trigger disabled following end of course
+#  push:
+#    branches: [main]
+#    paths:
+#      - "frontend/web-app/**"
+#      - "k8s/services/web-app.yml"
+#      - ".github/workflows/web-app.yml"
+#      - ".github/workflows/deploy.yml"
 
 concurrency:
   group: web-app-${{github.ref}}
