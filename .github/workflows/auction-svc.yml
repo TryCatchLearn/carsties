@@ -7,6 +7,7 @@ on:
     paths:
       - "src/AuctionService/**"
       - "src/Contracts/**"
+      - "tests/AuctionService.Tests/**"
       - "k8s/services/auction-svc.yml"
       - ".github/workflows/auction-svc.yml"
       - ".github/workflows/deploy.yml"
@@ -21,4 +22,5 @@ jobs:
     with: 
       image: auction-svc
       dockerfile: src/AuctionService/Dockerfile
+      test_project: tests/AuctionService.Tests/AuctionService.Tests.csproj
     secrets: inherit

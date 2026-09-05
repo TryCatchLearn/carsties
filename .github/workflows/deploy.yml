@@ -13,6 +13,10 @@ on:
         required: false
         type: string
         default: "."
+      test_project:
+        required: false
+        type: string
+        default: ""
 
 env:
   REGISTRY: ghcr.io
@@ -20,7 +24,25 @@ env:
   IMAGE_NAME: ${{ github.repository }}/${{inputs.image}}
 
 jobs:
+  test:
+    if: inputs.test_project != ''
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Set up .Net
+        uses: actions/setup-dotnet@v6
+        with: 
+          dotnet-version: "10.0.x"
+          
+      - name: dotnet test
+        run: dotnet test "${{inputs.test_project}}" --configuration Release
+  
   build:
+    needs: [test]
+    if: always() && (needs.test.result == 'success' || needs.test.result == 'skipped')
+    
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -65,7 +87,8 @@ jobs:
           cache-to: type=gha,mode=max,scope={{env.IMAGE_NAME}}
 
   deploy:
-    needs: [build]
+    needs: [build, test]
+    if: always() && (needs.test.result == 'success' || needs.test.result == 'skipped')
     runs-on: ubuntu-latest
     permissions:
       contents: read
