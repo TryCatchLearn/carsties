@@ -46,7 +46,7 @@ You can see how this app was made by taking the [Udemy course](https://www.udemy
 
     ```
     cd devcerts
-    mkcert -key-file carsties.local.key -cert-file carsties.local.crt app.carsties.test api.carsties.test id.carsties.test
+    mkcert -key-file carsties.test.key -cert-file carsties.test.crt app.carsties.test api.carsties.test id.carsties.test
     ```
 
 8. Add an entry to your hosts file so you can reach the app by domain name (see [this guide](https://www.hostinger.com/tutorials/how-to-edit-hosts-file) if needed):
